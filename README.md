@@ -1,2 +1,4 @@
 # modsec-parser
-Commanf line tool to process apache mod_security audit log (serial log; native text format)
+Command line tool to process apache mod_security audit log (serial log; native text format)
+
+Developed by Pascal Havelange (metanull)
