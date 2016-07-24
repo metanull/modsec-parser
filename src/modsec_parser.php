@@ -1,6 +1,11 @@
 <?php
+	/**
+	 * @author Pascal Havelange
+	 */
 
-
+	 /**
+	  * Walk a serial log file; parsing it. Each parsed entry can then be further processed by a custom method or function
+	  */
 	class modsecParser {
 	
 		const SECTION_DELIMITER = '/^--([0-9a-z]{8})-([A-Z])--$/';
@@ -262,6 +267,10 @@
 		
 	}
 	
+	/**
+	 * A dummy processor for log entries retrieved from modsecParser
+	 * It will just dump some information about the entry on stdout
+	 */
 	class dummyProcessor {
 		static function run( $entry ){
 			// A
@@ -318,6 +327,13 @@
 		}
 	}
 	
+	/**
+	 * More refined processor for log entries retrieved from modsecParser
+	 * So far it is capable of parsing correctly the A, B, F and H section of the auditlog; any other section will be stored "as-is"
+	 * Despite the name; it is not capable yet of uploading to mysql (that is the next step)
+	 * In fact a third class sould probably be added to perform the save operation; in the end there would therefore be 3 classes with very distinct responsibilities:
+	 * The Walker (read the file); the Parser (process the output of the walker); the Store (sends output of the Parser to some persistent storage)
+	 */
 	class mysqlProcessor {
 	
 		private $host = 'p:localhost';
