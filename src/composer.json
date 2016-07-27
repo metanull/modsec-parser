@@ -1,9 +1,0 @@
-{
-	"name": "metanull/modsec-parser",
-	"version": "0.1.0",
-    "require": {
-		"php": ">=7.0.0",
-		"php-64bit": "*",
-        "monolog/monolog": "^1.20"
-    }
-}

@@ -663,11 +663,13 @@
 	define( 'HISTORY_LINE_SIZE', 320 );
 	define( 'MAX_ENTRIES', 100000 );
 	
-	$config = [
-		'source' => 'c:/temp/modsec_audit.log',
-		'offset' => null,
-		// 'copy-to' => 'c:/mwnf-server/logs/modsec/audit',	// Optional
+	$source = 'c:/temp/modsec_audit.log';
+	$offset = null;
+	$config = null;
+/*	$config = [
+		'copy-to' => sys_get_temp_dir();	// Optional, to disable saving of entities in individual files, simply don't define that option
 	];
+*/
 	$more = true;
 	
 	try {
@@ -677,17 +679,17 @@
 		}
 		// Start from an offset or from set?
 		if( count( $argv ) > 2  && is_numeric( $argv[2] )) {
-			$config['offset'] = (int)$argv[2];
+			$offset = (int)$argv[2];
 		}		
 		
 		// Initialize the processor...
 		$processor = new mysqlProcessor( 'modsec', 'M0dS3cUr!7y P@r5eR' );
 		
 		// ... and register it with the parser
-		$parser = new modsecParser( $config, array($processor,'run' ));
+		$parser = new AuditReader( $source, array($processor,'run' ), $config );
 		
 		// Walk down the log file and process it
-		$more = $parser->walk( $config['offset'] );
+		$more = $parser->walk( $offset );
 		for( $i = 1; $more && ( $i < MAX_ENTRIES ); $i ++ ) {
 			$more = $parser->walk();
 		}
